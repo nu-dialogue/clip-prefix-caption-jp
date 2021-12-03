@@ -11,22 +11,21 @@ import os
 import json
 from tqdm import tqdm
 
-from model import ClipDataset, build_model, bulid_model
+from model import ClipDataset, build_model
 
 def save_config(args: argparse.Namespace):
     config = {}
     for key, item in args._get_kwargs():
         config[key] = item
-    out_path = os.path.join(args.out_dir, f"{args.model_name}.json")
+    out_path = os.path.join(args.checkpoints_dpath, f"{args.model_name}.json")
     with open(out_path, 'w') as outfile:
         json.dump(config, outfile)
 
-def train(train_dataset: Dataset, valid_dataset: Dataset, model, args,
-          lr: float = 2e-5, warmup_steps: int = 5000, output_dir: str = ".", output_prefix: str = ""):
+def train(train_dataset: Dataset, valid_dataset: Dataset, model,
+          batch_size, epochs, lr, warmup_steps: int = 5000,
+          save_every=1, output_dir: str = ".", output_prefix: str = ""):
 
     device = torch.device('cuda:0')
-    batch_size = args.bs
-    epochs = args.epochs
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     model = model.to(device)
@@ -36,13 +35,11 @@ def train(train_dataset: Dataset, valid_dataset: Dataset, model, args,
     scheduler = get_linear_schedule_with_warmup(
         optimizer, num_warmup_steps=warmup_steps, num_training_steps=epochs * len(train_dataloader)
     )
-    save_config(args)
     for epoch in range(epochs):
         print(f">>> Epoch: {epoch}")
 
-        print(f"Training")
         sys.stdout.flush()
-        progress = tqdm(total=len(train_dataloader), desc=output_prefix)
+        progress = tqdm(total=len(train_dataloader), desc=f"{output_prefix} train")
         model.train()
         for idx, (tokens, mask, prefix, _) in enumerate(train_dataloader):
             model.zero_grad()
@@ -63,9 +60,8 @@ def train(train_dataset: Dataset, valid_dataset: Dataset, model, args,
                 )
         progress.close()
 
-        print(f"Validation")
         sys.stdout.flush()
-        progress = tqdm(total=len(valid_dataloader), desc=output_prefix)
+        progress = tqdm(total=len(valid_dataloader), desc=f"{output_prefix} valid")
         model.eval()
         for idx, (tokens, mask, prefix, _) in enumerate(valid_dataloader):
             tokens, mask, prefix = tokens.to(device), mask.to(device), prefix.to(device, dtype=torch.float32)
@@ -77,39 +73,41 @@ def train(train_dataset: Dataset, valid_dataset: Dataset, model, args,
             progress.update()
         progress.close()
 
-        if epoch % args.save_every == 0 or epoch == epochs - 1:
+        if epoch % save_every == 0 or epoch == epochs - 1:
             torch.save(
                 model.state_dict(),
                 os.path.join(output_dir, f"{output_prefix}-{epoch:03d}.pt"),
             )
     return model
 
-def main():
+
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', choices=["coco", "sfcoco"])
     parser.add_argument('--model_name', help='prefix for saved filenames')
-    parser.add_argument('--pretrained_path', default="")
-    parser.add_argument('--out_dir', default='./checkpoints')
+    parser.add_argument('--pretrained_fpath', default="")
+    parser.add_argument('--train_data_fpath', default='data/coco/outputs/train.pkl')
+    parser.add_argument('--valid_data_fpath', default='data/coco/outputs/valid.pkl')
+    parser.add_argument('--checkpoints_dpath', default='./checkpoints')
     parser.add_argument('--epochs', type=int, default=20)
+    parser.add_argument('--batch_size', type=int, default=8)
+    parser.add_argument('--lr', type=float, default=2e-5)
     parser.add_argument('--save_every', type=int, default=1)
     parser.add_argument('--prefix_length', type=int, default=10)
-    parser.add_argument('--bs', type=int, default=8)
     parser.add_argument('--only_prefix', dest='only_prefix', action='store_true')
     parser.set_defaults(only_prefix=False)
     args = parser.parse_args()
 
-    prefix_length = args.prefix_length
-    train_data_fpath = os.path.join("data", args.dataset, "exp", "train.pkl")
-    valid_data_fpath = os.path.join("data", args.dataset, "exp", "valid.pkl")
-    train_dataset = ClipDataset(train_data_fpath, prefix_length)
-    valid_dataset = ClipDataset(valid_data_fpath, prefix_length)
+    train_dataset = ClipDataset(args.train_data_fpath, args.prefix_length)
+    valid_dataset = ClipDataset(args.valid_data_fpath, args.prefix_length)
 
-    model = bulid_model(prefix_length=args.prefix_length,
+    model = build_model(prefix_length=args.prefix_length,
                         only_prefix=args.only_prefix,
-                        model_fpath=args.pretrained_path)
-    
-    train(train_dataset, valid_dataset, model, args, output_dir=args.out_dir, output_prefix=args.model_name)
+                        model_fpath=args.pretrained_fpath)
 
+    if not os.path.exists(args.checkpoints_dpath):
+        os.makedirs(args.checkpoints_dpath)
+    save_config(args)
 
-if __name__ == '__main__':
-    main()
+    train(train_dataset=train_dataset, valid_dataset=valid_dataset, model=model,
+          batch_size=args.batch_size, epochs=args.epochs, lr=args.lr,
+          save_every=args.save_every, output_dir=args.checkpoints_dpath, output_prefix=args.model_name)

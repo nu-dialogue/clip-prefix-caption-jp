@@ -4,17 +4,12 @@ from torch.nn import functional as nnf
 from torch.utils.data import Dataset, DataLoader
 from transformers import (
     AutoModelForCausalLM,
-    T5Tokenizer,
-    AdamW,
-    get_linear_schedule_with_warmup
+    T5Tokenizer
 )
 
 import sys
 import os
-import json
-import argparse
 import pickle
-from tqdm import tqdm
 from typing import Tuple, Optional, Union
 
 class ClipDataset(Dataset):
@@ -28,7 +23,7 @@ class ClipDataset(Dataset):
         sys.stdout.flush()
         self.prefixes = all_data["clip_embedding"]
         captions_raw = all_data["captions"]
-        self.image_ids = [caption["image_id"] for caption in captions_raw]
+        # self.image_ids = [caption["image_id"] for caption in captions_raw]
         self.captions = [caption['caption'] for caption in captions_raw]
         if os.path.isfile(f"{data_path[:-4]}_tokens.pkl"):
             with open(f"{data_path[:-4]}_tokens.pkl", 'rb') as f:
@@ -120,7 +115,7 @@ class ClipCaptionPrefix(ClipCaptionModel):
         return self
 
 
-def bulid_model(prefix_length=10, only_prefix=False, model_fpath=""):
+def build_model(prefix_length=10, only_prefix=False, model_fpath=""):
     if only_prefix:
         model = ClipCaptionPrefix(prefix_length)
         print("Train only prefix")
