@@ -41,6 +41,7 @@ def train(train_dataset: Dataset, valid_dataset: Dataset, model,
         sys.stdout.flush()
         progress = tqdm(total=len(train_dataloader), desc=f"{output_prefix} train")
         model.train()
+        losses = []
         for idx, (tokens, mask, prefix, _) in enumerate(train_dataloader):
             model.zero_grad()
             tokens, mask, prefix = tokens.to(device), mask.to(device), prefix.to(device, dtype=torch.float32)
@@ -52,6 +53,7 @@ def train(train_dataset: Dataset, valid_dataset: Dataset, model,
             scheduler.step()
             optimizer.zero_grad()
             progress.set_postfix({"loss": loss.item()})
+            losses.append(loss.item())
             progress.update()
             if (idx + 1) % 10000 == 0:
                 torch.save(
@@ -59,10 +61,12 @@ def train(train_dataset: Dataset, valid_dataset: Dataset, model,
                     os.path.join(output_dir, f"{output_prefix}_latest.pt"),
                 )
         progress.close()
+        print(f"{output_prefix} train avg loss: {sum(losses)/len(losses)}")
 
         sys.stdout.flush()
         progress = tqdm(total=len(valid_dataloader), desc=f"{output_prefix} valid")
         model.eval()
+        losses = []
         for idx, (tokens, mask, prefix, _) in enumerate(valid_dataloader):
             tokens, mask, prefix = tokens.to(device), mask.to(device), prefix.to(device, dtype=torch.float32)
             with torch.no_grad():
@@ -70,8 +74,10 @@ def train(train_dataset: Dataset, valid_dataset: Dataset, model,
             logits = outputs.logits[:, valid_dataset.prefix_length - 1: -1]
             loss = nnf.cross_entropy(logits.reshape(-1, logits.shape[-1]), tokens.flatten(), ignore_index=0)
             progress.set_postfix({"loss": loss.item()})
+            losses.append(loss.item())
             progress.update()
         progress.close()
+        print(f"{output_prefix} valid avg loss: {sum(losses)/len(losses)}")
 
         if epoch % save_every == 0 or epoch == epochs - 1:
             torch.save(
