@@ -5,6 +5,34 @@
 - Japanese GPT-2 model : [![](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-rinna%2Fjapanese--gpt2--medium-brightgreen)](https://huggingface.co/rinna/japanese-gpt2-medium)
 - Japanese MS COCO: [Paper](https://aclanthology.org/P16-1168/), [GitHub](https://github.com/yahoojapan/YJCaptions)
 
+## MS COCO Examples
+
+<table>
+  <tr>
+    <td><img src="example_images/COCO_val2014_000000499388.jpg" ></td>
+    <td><img src="example_images/COCO_val2014_000000232842.jpg" ></td>
+    <td><img src="example_images/COCO_val2014_000000250345.jpg" ></td>
+  </tr>
+  <tr>
+    <td>街路樹のある道路を車が走っています。</td>
+     <td>広場でたくさんの人が凧揚げをしています。</td>
+     <td>紙の箱の中にピザが入っています。</td>
+  </tr>
+ </table>
+ 
+ <table>
+  <tr>
+    <td><img src="example_images/COCO_val2014_000000380510.jpg" ></td>
+    <td><img src="example_images/COCO_val2014_000000148403.jpg" ></td>
+    <td><img src="example_images/COCO_val2014_000000271429.jpg" ></td>
+  </tr>
+  <tr>
+    <td>時計の針は10時20分を指しています。</td>
+     <td>青空の下に時計台が建っています。</td>
+     <td>野球のバッターがボールを打とうとしています。</td>
+  </tr>
+ </table>
+
 ## ライブラリ
 - 基本
     ```bash
