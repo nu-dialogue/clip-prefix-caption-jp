@@ -24,8 +24,8 @@ CLIP Prefix captioningの日本語版実装
     ```
 
 ## チュートリアル
-- 学習済みモデルを用いた推論のみ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc_inference.ipynb)
-- キャプションデータの用意から学習，推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc_train_test.ipynb)
+- 学習済みモデルを用いた推論のみ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc_tutorial.ipynb)
+- キャプションデータの用意から学習，推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/tutorial.ipynb)
 ### 用意するキャプションの形式
 - キャプション一覧データ
     - 推奨データパス：`data/<データセット名>/captions.json`
