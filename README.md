@@ -33,16 +33,11 @@
   </tr>
  </table>
 
-## ライブラリ
-- 基本
-    ```bash
-    pip instal -r requirements.txt
-    ```
-- Jupyter Notebookを使用する場合
-    ```bash
-    pip install ipykernel
-    pip install ipywidgets widgetsnbextension
-    ```
+## Requirements
+Python >= 3.7
+```bash
+pip instal -r requirements.txt
+```
 
 ## チュートリアル
 - SFCOCOデータによる学習・推論デモ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc_tutorial.ipynb)
