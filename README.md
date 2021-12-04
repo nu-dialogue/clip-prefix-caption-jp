@@ -1,31 +1,24 @@
 # clip-prefix-caption-jp
-CLIP Prefix captioningの日本語版実装
-- CLIP prefix captioning
-    - Paper: [ClipCap: CLIP Prefix for Image Captioning](https://arxiv.org/abs/2111.09734)
-    - Official implementation: [github](https://github.com/rmokady/CLIP_prefix_caption)
-- Japanese GPT-2 model
-    - Hugging Face: [japanese-gpt2-medium](https://huggingface.co/rinna/japanese-gpt2-medium)
-- MS COCO Dataset
-    - Paper: [Microsoft COCO: Common Objects in Context](https://arxiv.org/abs/1405.0312)
-    - Download: [MS COCO](https://cocodataset.org/#download)
-- Japanese version of the MS COCO
-    - Paper: [Cross-Lingual Image Caption Generation](https://aclanthology.org/P16-1168/)
-    - Data: [github](https://github.com/yahoojapan/YJCaptions)
+本リポジトリは画像キャプション生成手法[ClipCap](https://arxiv.org/abs/2111.09734)の日本語版実装です．ClipCapは，大規模汎用画像分類モデル[CLIP](https://cdn.openai.com/papers/Learning_Transferable_Visual_Models_From_Natural_Language_Supervision.pdf)と大規模汎用言語モデル[GPT-2](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)をベースにした手法です．本リポジトリでは，日本語版GPT-2と日本語版MS COCOデータセットを用いて実装してあります．自作データセットで学習・推論する際のチュートリアルも公開しています．
+
+- Official implementation of ClipCap: [GitHub](https://github.com/rmokady/CLIP_prefix_caption)
+- Japanese GPT-2 model : [![](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-rinna%2Fjapanese--gpt2--medium-brightgreen)](https://huggingface.co/rinna/japanese-gpt2-medium)
+- Japanese MS COCO: [Paper](https://aclanthology.org/P16-1168/), [GitHub](https://github.com/yahoojapan/YJCaptions)
 
 ## ライブラリ
 - 基本
     ```bash
     pip instal -r requirements.txt
     ```
-- JupyterNotebookを使用する場合
+- Jupyter Notebookを使用する場合
     ```bash
     pip install ipykernel
     pip install ipywidgets widgetsnbextension
     ```
 
 ## チュートリアル
-- 学習済みモデルを用いた推論のみ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc_tutorial.ipynb)
-- キャプションデータの用意から学習，推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/tutorial.ipynb)
+- SFCOCOデータによる学習・推論デモ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc_tutorial.ipynb)
+- 自作データセットの用意から学習，推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/tutorial.ipynb)
 ### 用意するキャプションの形式
 - キャプション一覧データ
     - 推奨データパス：`data/<データセット名>/captions.json`
