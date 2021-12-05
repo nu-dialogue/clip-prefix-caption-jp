@@ -5,7 +5,7 @@
 - Japanese GPT-2 model : [![](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-rinna%2Fjapanese--gpt2--medium-brightgreen)](https://huggingface.co/rinna/japanese-gpt2-medium)
 - Japanese MS COCO: [Paper](https://aclanthology.org/P16-1168/), [GitHub](https://github.com/yahoojapan/YJCaptions)
 
-## MS COCO Examples
+## Inference Examples on MS COCO
 
 <table>
   <tr>
