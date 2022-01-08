@@ -44,7 +44,7 @@ pip instal -r requirements.txt
 - 自作データセットの用意から学習，推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/tutorial.ipynb)
 ### 用意するキャプションの形式
 - キャプション一覧データ
-    - 推奨データパス：`data/<データセット名>/captions.json`
+    - 推奨パス：`data/<データセット名>/captions.json`
     - 内容：キャプション文（caption），キャプションID（id），画像ファイル名（image_name）からなる辞書のリスト
     - 内容例
         ```json
@@ -62,7 +62,7 @@ pip instal -r requirements.txt
         ]
         ```
 - 画像データフォルダ
-    - 推奨データパス：`data/<データセット名>/images`
+    - 推奨パス：`data/<データセット名>/images`
     - 内容：すべての画像ファイルが存在するフォルダ
     - 内容例
         ```bash
