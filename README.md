@@ -45,7 +45,7 @@ pip instal -r requirements.txt
 ### 用意するキャプションの形式
 - キャプション一覧データ
     - 推奨データパス：`data/<データセット名>/captions.json`
-    - 内容：キャプション文（caption），キャプションID（id），画像名（image_name）からなる辞書のリスト
+    - 内容：キャプション文（caption），キャプションID（id），画像ファイル名（image_name）からなる辞書のリスト
     - 内容例
         ```json
         [
@@ -62,5 +62,5 @@ pip instal -r requirements.txt
         ]
         ```
 - 画像データ
-    - 推奨データパス：`data/<データセット名>/images`
-    - 内容：キャプションの対象画像
+    - 推奨データパス：`data/<データセット名>/images/<画像ファイル名>`
+    - 内容：キャプション対象の画像
