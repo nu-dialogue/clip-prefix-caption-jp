@@ -52,12 +52,12 @@ pip instal -r requirements.txt
             {
                 "caption": "暗くされた部屋の中で、テーブルに置かれたノートパソコンのモニター画面が壁の大きなスクリーンに映し出されています。", 
                 "id": 1, 
-                "image_name": "COCO_val2014_000000131075.json"
+                "image_name": "COCO_val2014_000000131075.png"
             }, 
             {
                 "caption": "プロジェクターにパソコンの画像が映し出されています。", 
                 "id": 2, 
-                "image_name": "COCO_val2014_000000131075.json"
+                "image_name": "COCO_val2014_000000131075.png"
             }
         ]
         ```
@@ -67,5 +67,5 @@ pip instal -r requirements.txt
     - 内容例
         ```bash
         $ ls data/<データセット名>/images
-        COCO_val2014_000000131075.json  COCO_val2014_000000131075.json
+        COCO_val2014_000000131075.png  COCO_val2014_000000131075.png
         ```
