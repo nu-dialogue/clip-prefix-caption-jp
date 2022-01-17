@@ -50,17 +50,17 @@ pip instal -r requirements.txt
 - 自作データセットの用意から学習，推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/tutorial.ipynb)
 
 ## 用意するデータの形式
-### ツリー構造
-- <データセット名>直下に，キャプション一覧データ（`captions.csv`）と画像格納ディレクトリ（`images/`）を置く．
-  ```
-  data/
-    └─ <データセット名>/
-              ├─ captions.csv
-              └─ images/
-                    ├─ COCO_train2014_000000131075.jpg
-                    ├─ COCO_train2014_000000131076.jpg
-                    ...
-  ```
+- `data/`直下に，任意のデータセット名のディレクトリを作成し，キャプション一覧データ（`captions.csv`）と画像格納ディレクトリ（`images/`）を置く．
+  - データセット名を`hoge`とした場合のツリー構造
+    ```
+    data/
+      └─ hoge/
+          ├─ captions.csv
+          └─ images/
+                ├─ COCO_train2014_000000131075.jpg
+                ├─ COCO_train2014_000000131076.jpg
+                ...
+    ```
 ### captions.csvの中身
 - 「画像ファイル名」と「キャプション文」が対になったcsvファイル
 - 例
