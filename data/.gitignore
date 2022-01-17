@@ -1,5 +1,6 @@
 */*
 !.gitignore
 !coco/yjcaptions26k_clean.json
+!coco/prep_captions.py
 !sfcoco/captions.json
 !sfcoco/images
