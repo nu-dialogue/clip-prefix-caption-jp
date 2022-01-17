@@ -1,10 +1,4 @@
 # clip-prefix-caption-jp
-
-## TODO
-- [ ] google driveに各種処理済みデータをアップする
-  - 前処理済みデータ
-  - 学習済みモデル
-
 本リポジトリは画像キャプション生成手法[ClipCap](https://arxiv.org/abs/2111.09734)の日本語版実装です．ClipCapは，大規模汎用画像分類モデル[CLIP](https://cdn.openai.com/papers/Learning_Transferable_Visual_Models_From_Natural_Language_Supervision.pdf)と大規模汎用言語モデル[GPT-2](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)をベースにした手法です．本リポジトリでは，日本語版GPT-2と日本語版MS COCOデータセットを用いて実装してあります．自作データセットで学習・推論する際のチュートリアルも公開しています．
 
 - Official implementation of ClipCap: [GitHub](https://github.com/rmokady/CLIP_prefix_caption)
