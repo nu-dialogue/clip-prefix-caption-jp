@@ -1,5 +1,6 @@
 */*
 !.gitignore
 !coco/captions.csv
+# !coco/images
 !sfcoco/captions.csv
 !sfcoco/images
