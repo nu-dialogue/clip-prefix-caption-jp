@@ -6,10 +6,11 @@ from PIL import Image
 import pickle
 import json
 import os
+import csv
 from tqdm import tqdm
 import random
 
-DEVICE = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
+DEVICE = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 def parse(data, part, clip_model, preprocess, image_dpath, out_dpath):
     if not data:
@@ -20,8 +21,13 @@ def parse(data, part, clip_model, preprocess, image_dpath, out_dpath):
     all_embeddings = []
     all_captions = []
     for i in tqdm(range(len(data))):
-        d = data[i]
-        d["clip_embedding"] = i
+        d = {
+            "clip_embedding": i,
+            "image_id": data[i][0],
+            "image_name": data[i][1],
+            "caption": data[i][2]
+        }
+
         fpath = os.path.join(image_dpath, d["image_name"])
         if not os.path.isfile(fpath):
             raise FileNotFoundError(fpath)
@@ -32,7 +38,7 @@ def parse(data, part, clip_model, preprocess, image_dpath, out_dpath):
             prefix = clip_model.encode_image(image).cpu()
         all_embeddings.append(prefix)
         all_captions.append(d)
-        all_names.append(os.path.basename(d["image_name"]))
+        all_names.append(d["image_name"])
 
     out_data = {"clip_embedding": torch.cat(all_embeddings, dim=0), "captions": all_captions}
     data_fpath = os.path.join(out_dpath, f"{part}.pkl")
@@ -59,9 +65,10 @@ def prepare_data(captions_fpath, image_dpath, test_ratio, valid_ratio, train_rat
     if not os.path.exists(out_dpath):
         os.makedirs(out_dpath)
 
-    all_data = json.load(open(captions_fpath))
+    all_data = [[i] + line for i, line in enumerate(csv.reader(open(captions_fpath)))]
     if shuffle:
         all_data = random.sample(all_data, len(all_data))
+    import pdb; pdb.set_trace()
 
     test_size = math.ceil(len(all_data) * test_ratio)
     valid_size = math.ceil(len(all_data) * valid_ratio)

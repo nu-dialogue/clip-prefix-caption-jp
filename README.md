@@ -1,4 +1,10 @@
 # clip-prefix-caption-jp
+
+## TODO
+- [ ] google driveに各種処理済みデータをアップする
+  - 前処理済みデータ
+  - 学習済みモデル
+
 本リポジトリは画像キャプション生成手法[ClipCap](https://arxiv.org/abs/2111.09734)の日本語版実装です．ClipCapは，大規模汎用画像分類モデル[CLIP](https://cdn.openai.com/papers/Learning_Transferable_Visual_Models_From_Natural_Language_Supervision.pdf)と大規模汎用言語モデル[GPT-2](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)をベースにした手法です．本リポジトリでは，日本語版GPT-2と日本語版MS COCOデータセットを用いて実装してあります．自作データセットで学習・推論する際のチュートリアルも公開しています．
 
 - Official implementation of ClipCap: [GitHub](https://github.com/rmokady/CLIP_prefix_caption)
@@ -44,22 +50,14 @@ pip instal -r requirements.txt
 - 自作データセットの用意から学習，推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/tutorial.ipynb)
 ### 用意するキャプションの形式
 - キャプション一覧データ
-    - 推奨パス：`data/<データセット名>/captions.json`
-    - 内容：キャプション文（caption），キャプションID（id），画像ファイル名（image_name）からなる辞書のリスト
+    - 推奨パス：`data/<データセット名>/captions.csv`
+    - 内容：「画像ファイル名」と「キャプション文」がついになったcsvファイル
+      - 学習を進める過程で，学習データ，検証データ，テストデータに分割します．
     - 内容例
-        ```json
-        [
-            {
-                "caption": "暗くされた部屋の中で、テーブルに置かれたノートパソコンのモニター画面が壁の大きなスクリーンに映し出されています。", 
-                "id": 1, 
-                "image_name": "COCO_val2014_000000131075.jpg"
-            }, 
-            {
-                "caption": "プロジェクターにパソコンの画像が映し出されています。", 
-                "id": 2, 
-                "image_name": "COCO_val2014_000000131075.jpg"
-            }
-        ]
+        ```csv
+        COCO_train2014_000000131075.jpg,プロジェクターにパソコンの画像が映し出されています。
+        COCO_train2014_000000131075.jpg,スクリーンにパソコンの画面が映し出されています。
+        ...
         ```
 - 画像データフォルダ
     - 推奨パス：`data/<データセット名>/images`
@@ -67,5 +65,5 @@ pip instal -r requirements.txt
     - 内容例
         ```bash
         $ ls data/<データセット名>/images
-        COCO_val2014_000000131075.jpg  COCO_val2014_000000131075.jpg
+        COCO_train2014_000000131075.jpg  COCO_train2014_000000131076.jpg ...
         ```
