@@ -48,22 +48,24 @@ pip instal -r requirements.txt
 ## チュートリアル
 - SFCOCOデータによる学習・推論デモ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc_tutorial.ipynb)
 - 自作データセットの用意から学習，推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/tutorial.ipynb)
-### 用意するキャプションの形式
-- キャプション一覧データ
-    - 推奨パス：`data/<データセット名>/captions.csv`
-    - 内容：「画像ファイル名」と「キャプション文」がついになったcsvファイル
-      - 学習を進める過程で，学習データ，検証データ，テストデータに分割します．
-    - 内容例
-        ```csv
-        COCO_train2014_000000131075.jpg,プロジェクターにパソコンの画像が映し出されています。
-        COCO_train2014_000000131075.jpg,スクリーンにパソコンの画面が映し出されています。
-        ...
-        ```
-- 画像データフォルダ
-    - 推奨パス：`data/<データセット名>/images`
-    - 内容：すべての画像ファイルが存在するフォルダ
-    - 内容例
-        ```bash
-        $ ls data/<データセット名>/images
-        COCO_train2014_000000131075.jpg  COCO_train2014_000000131076.jpg ...
-        ```
+
+## 用意するデータの形式
+### ツリー構造
+- <データセット名>直下に，キャプション一覧データ（`captions.csv`）と画像格納ディレクトリ（`images/`）を置く．
+  ```
+  data/
+    └─ <データセット名>/
+              ├─ captions.csv
+              └─ images/
+                    ├─ COCO_train2014_000000131075.jpg
+                    ├─ COCO_train2014_000000131076.jpg
+                    ...
+  ```
+### captions.csvの中身
+- 「画像ファイル名」と「キャプション文」が対になったcsvファイル
+- 例
+    ```csv
+    COCO_train2014_000000131075.jpg,プロジェクターにパソコンの画像が映し出されています。
+    COCO_train2014_000000131075.jpg,スクリーンにパソコンの画面が映し出されています。
+    ...
+    ```
