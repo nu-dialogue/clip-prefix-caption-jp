@@ -2,32 +2,34 @@ import numpy as np
 import torch
 import skimage.io as io
 from PIL import Image
-import clip
 from transformers import T5Tokenizer
-from model import ClipCaptionModel
+from model import ClipCaptionModel, build_clip_model
 DEVICE = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
 class Predictor:
-    def __init__(self, model: ClipCaptionModel) -> None:
-        self.clip_model, self.preprocess = clip.load("ViT-B/32", device=DEVICE, jit=False)
-        self.tokenizer = T5Tokenizer.from_pretrained("rinna/japanese-gpt2-medium")
-        self.model = model
- 
+    def __init__(self, cap_model: ClipCaptionModel, cap_tokenizer: T5Tokenizer,
+                 clip_model, clip_preprocess, device = DEVICE) -> None:
+        self.model = cap_model
         self.model.eval()
-        self.model.to(DEVICE)
+        self.model.to(device)
+        self.tokenizer = cap_tokenizer
+        self.stop_token = cap_tokenizer.eos_token
 
-        self.stop_token = "</s>"
+        self.clip_model = clip_model
+        self.preprocess = clip_preprocess
+
+        self.device = device
 
     def caption(self, image_fpath, beam_size=5, prompt=None,):
         image = io.imread(image_fpath)
         pil_image = Image.fromarray(image)
-        image = self.preprocess(pil_image).unsqueeze(0).to(DEVICE)
+        image = self.preprocess(pil_image).unsqueeze(0).to(self.device)
         with torch.no_grad():
             # if type(model) is ClipCaptionE2E:
             #     prefix_embed = model.forward_image(image)
             # else:
-            prefix = self.clip_model.encode_image(image).to(DEVICE, dtype=torch.float32)
-            prefix_embed = self.model.clip_project(prefix).reshape(1, 10, -1)
+            prefix = self.clip_model.encode_image(image).to(self.device, dtype=torch.float32)
+            prefix_embed = self.model.clip_project(prefix).reshape(-1, self.model.prefix_length, self.model.gpt_embedding_size)
         generated_text_prefix = self.generate_beam(embed=prefix_embed, beam_size=beam_size)
         return pil_image, generated_text_prefix
 

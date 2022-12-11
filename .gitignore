@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # clip-prefix-caption
-demo.ipynb
+./*.ipynb

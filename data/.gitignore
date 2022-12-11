@@ -4,5 +4,10 @@
 !coco/captions.csv
 # !coco/images
 
-!sfcoco/captions.csv
-!sfcoco/images
+!sfcoco2021/captions.csv
+!sfcoco2021/images
+
+!sfcoco2022/captions.csv
+# !sfcoco2022/images
+
+!sfcoco_merged/captions.csv

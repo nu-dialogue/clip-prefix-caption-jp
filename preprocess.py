@@ -1,14 +1,15 @@
 import torch
 import skimage.io as io
-import clip
 import math
 from PIL import Image
 import pickle
 import json
 import os
 import csv
+import argparse
 from tqdm import tqdm
 import random
+from model import build_clip_model
 
 DEVICE = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -47,7 +48,7 @@ def parse(data, part, clip_model, preprocess, image_dpath, out_dpath):
     print(f"Saved {part} data to {data_fpath}.")
     return data_fpath
 
-def prepare_data(captions_fpath, image_dpath, test_ratio, valid_ratio, train_ratio, shuffle=False):
+def prepare_data(clip_model_name, captions_fpath, image_dpath, test_ratio, valid_ratio, train_ratio, shuffle=False):
     """
     [
         {
@@ -59,16 +60,15 @@ def prepare_data(captions_fpath, image_dpath, test_ratio, valid_ratio, train_rat
     ]
     """
     assert sum([test_ratio,valid_ratio,train_ratio]) <= 1.
-    clip_model, preprocess = clip.load("ViT-B/32", device=DEVICE, jit=False)
+    clip_model, preprocess = build_clip_model(clip_model_name)
 
-    out_dpath = os.path.join(os.path.dirname(captions_fpath), "processed")
+    out_dpath = os.path.join(os.path.dirname(captions_fpath), f"processed-{clip_model_name}")
     if not os.path.exists(out_dpath):
         os.makedirs(out_dpath)
 
     all_data = [[i] + line for i, line in enumerate(csv.reader(open(captions_fpath)))]
     if shuffle:
         all_data = random.sample(all_data, len(all_data))
-    import pdb; pdb.set_trace()
 
     test_size = math.ceil(len(all_data) * test_ratio)
     valid_size = math.ceil(len(all_data) * valid_ratio)
@@ -87,3 +87,17 @@ def prepare_data(captions_fpath, image_dpath, test_ratio, valid_ratio, train_rat
                              clip_model=clip_model, preprocess=preprocess)
                              
     return test_data_fpath, valid_data_fpath, train_data_fpath
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--clip_model_name", type=str, help="en_clip_b32, ja_clip_b16, ja_cloob_b16")
+    parser.add_argument("--captions_fpath", type=str)
+    parser.add_argument("--image_dpath", type=str)
+    args = parser.parse_args()
+    coco_test_fpath, coco_valid_fpath, coco_train_fpath = prepare_data(clip_model_name=args.clip_model_name,
+                                                                       captions_fpath=args.captions_fpath,
+                                                                       image_dpath=args.image_dpath,
+                                                                       test_ratio=0.1,
+                                                                       valid_ratio=0.1,
+                                                                       train_ratio=0.8,
+                                                                       shuffle=False)
