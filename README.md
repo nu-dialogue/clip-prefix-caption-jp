@@ -40,9 +40,9 @@ pip instal -r requirements.txt
 ```
 
 ## チュートリアル
-- COCOデータセットでの学習済みモデルによる推論デモ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc2022_clipcap.ipynb)
+- COCOデータセットでの学習済みモデルによる推論デモ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nu-dialogue/clip-prefix-caption-jp/blob/master/notebooks/sfc2022_clipcap.ipynb)
   - SFCの授業で用いたものです．
-- 自作データセットの用意から学習・推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/original_clipcap.ipynb)
+- 自作データセットの用意から学習・推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nu-dialogue/clip-prefix-caption-jp/blob/master/notebooks/original_clipcap.ipynb)
 
 ## 用意するデータの形式
 `data/`直下に，任意のデータセット名のディレクトリを作成し，キャプション一覧データ（`captions.csv`）と画像格納ディレクトリ（`images/`）を置く．
