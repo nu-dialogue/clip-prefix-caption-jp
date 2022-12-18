@@ -166,7 +166,12 @@ def train(args):
             )
         log.append(epoch_log)
         json.dump(log, open(os.path.join(output_dir, "log.json"), "w"), indent=4)
-    return output_dir
+    if log:
+        best_epoch = sorted(log, key = lambda x: x["valid_avg_loss"])[0]["epoch"]
+        best_pt_fpath = os.path.join(output_dir, f"{best_epoch:03d}.pt")
+    else:
+        best_pt_fpath = None
+    return output_dir, best_pt_fpath
 
 
 if __name__ == '__main__':

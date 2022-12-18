@@ -1,4 +1,4 @@
 scikit-image==0.18.3
--e git+https://github.com/openai/CLIP.git#egg=clip
+git+https://github.com/openai/CLIP.git#egg=clip
 transformers==4.12.5
 sentencepiece==0.1.96

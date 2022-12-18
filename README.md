@@ -40,28 +40,32 @@ pip instal -r requirements.txt
 ```
 
 ## チュートリアル
-- COCOデータセットでの学習済みモデルによる推論デモ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc_tutorial.ipynb)
+- COCOデータセットでの学習済みモデルによる推論デモ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/sfc2022_clipcap.ipynb)
   - SFCの授業で用いたものです．
-- 自作データセットの用意から学習・推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/tutorial.ipynb)
+- 自作データセットの用意から学習・推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ohashi56225/clip-prefix-caption-jp/blob/master/notebooks/original_clipcap.ipynb)
 
 ## 用意するデータの形式
-- `data/`直下に，任意のデータセット名のディレクトリを作成し，キャプション一覧データ（`captions.csv`）と画像格納ディレクトリ（`images/`）を置く．
-  - データセット名を`hoge`とした場合のツリー構造
-    ```
-    data/
-      └─ hoge/
-          ├─ captions.csv
-          └─ images/
-                ├─ COCO_train2014_000000131075.jpg
-                ├─ COCO_train2014_000000131076.jpg
-                ...
-    ```
+`data/`直下に，任意のデータセット名のディレクトリを作成し，キャプション一覧データ（`captions.csv`）と画像格納ディレクトリ（`images/`）を置く．
+
+### `data/`ディレクトリ下のデータ例
+データセット名が`original`の場合
+```
+data/
+  └original/ # データセット名
+    ├images/ # 画像データを含んだフォルダ
+    │  ├001.jpeg # 画像ファイル名は何でもよい（連番である必要はない）
+    │  ├002.jpeg
+    │  └...
+    │
+    └captions.csv # 画像ファイル名とそのキャプション文のペアリスト
+```
+
 ### captions.csvの中身
 - **画像ファイル名**と**キャプション文**が対になったcsvファイル
   - 画像ファイル名は絶対パスや相対パスではなく，ファイル名そのもの（拡張子付き）とする．
 - 例
-    ```csv
-    COCO_train2014_000000131075.jpg,プロジェクターにパソコンの画像が映し出されています。
-    COCO_train2014_000000131075.jpg,スクリーンにパソコンの画面が映し出されています。
-    ...
-    ```
+  ```csv
+  001.jpeg,スケボーに興じる一人の男性がいます。
+  002.jpeg,ゲレンデでスキーをしている人がいます。
+  ...
+  ```
