@@ -8,6 +8,7 @@
 !sfcoco2021/images
 
 !sfcoco2022/captions.csv
-# !sfcoco2022/images
+!sfcoco2022/images
 
 !sfcoco_merged/captions.csv
+!sfcoco_merged/merge_2021_and_2022.py
