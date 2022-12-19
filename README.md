@@ -40,7 +40,7 @@ pip instal -r requirements.txt
 ```
 
 ## チュートリアル
-- COCOデータセットでの学習済みモデルによる推論デモ: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nu-dialogue/clip-prefix-caption-jp/blob/master/notebooks/sfc2022_clipcap.ipynb)
+- COCOデータセットやSFCOCOデータセットで学習したモデルでの推論: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nu-dialogue/clip-prefix-caption-jp/blob/master/notebooks/sfc2022_clipcap.ipynb)
   - SFCの授業で用いたものです．
 - 自作データセットの用意から学習・推論まで: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nu-dialogue/clip-prefix-caption-jp/blob/master/notebooks/original_clipcap.ipynb)
 
